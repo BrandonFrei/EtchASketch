@@ -1,12 +1,13 @@
 const container = document.getElementById("container");
 let inputSize = 16;
 let userColor = 'blue';
+let toggleBorder = 1;
+var item;
 
 function makeBlocks(size) {
   for (var i = 0; i < size * size; i++) {
     var box = document.createElement('div');
     box.className = "box1";
-    /*box.textContent = i+1;*/
     document.getElementById('container').appendChild(box);
   }
 }
@@ -16,7 +17,7 @@ container.addEventListener("mouseover", func(container), false)
 
 
 
-var item = document.getElementsByClassName("box1");
+item = document.getElementsByClassName("box1");
 
 let i = 0;
 for(i = 0; i < inputSize*inputSize; i++) {
@@ -52,9 +53,47 @@ function resetButton() {
   } 
 }
 
+function toggleButton() {
+  if(!toggleBorder){
+    for(i = 0; i < item.length; i++) {
+      item[i].style.outline = '1px solid black';
+    }
+    toggleBorder = 1;
+    return;
+  }
+  else{
+    for(i=0; i < item.length; i++) {
+      item[i].style.outline = 'transparent';
+    }
+    toggleBorder = 0;
+    return;
+  }
+}
+
+function userPrompt() {
+  inputSize = prompt("Enter the size of grid you want", "E.g. 16");
+  document.documentElement.style.setProperty('--main-dimension', inputSize);
+  while(item[0]) {
+    item[0].parentNode.removeChild(item[0]);
+  }
+  makeBlocks(inputSize);
+  resetButton();
+  item = document.getElementsByClassName("box1");
+
+  let i = 0;
+  for(i = 0; i < inputSize*inputSize; i++) {
+
+    try{throw i}
+
+    catch(thisObject) {
+
+      item[thisObject].addEventListener("mouseover", function() {
+        func(item[thisObject]);
+      });
+    }
 
 
-
-
+  }
+}
 
 
