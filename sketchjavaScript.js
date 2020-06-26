@@ -10,28 +10,27 @@ function makeBlocks(size) {
     box.className = "box1";
     document.getElementById('container').appendChild(box);
   }
+  addListener();
 }
 makeBlocks(inputSize);
 
-container.addEventListener("mouseover", func(container), false)
+function addListener() {
+  item = document.getElementsByClassName("box1");
+
+  let i = 0;
+  for(i = 0; i < inputSize*inputSize; i++) {
+
+    try{throw i}
+
+    catch(thisObject) {
+
+      item[thisObject].addEventListener("mouseover", function() {
+        func(item[thisObject]);
+      });
+    }
 
 
-
-item = document.getElementsByClassName("box1");
-
-let i = 0;
-for(i = 0; i < inputSize*inputSize; i++) {
-
-  try{throw i}
-
-  catch(thisObject) {
-
-    item[thisObject].addEventListener("mouseover", function() {
-      func(item[thisObject]);
-    });
   }
-
-
 }
 
 function func(thisElement) {
@@ -71,7 +70,10 @@ function toggleButton() {
 }
 
 function userPrompt() {
-  inputSize = prompt("Enter the size of grid you want", "E.g. 16");
+  inputSize = Math.floor(prompt("Enter the size of grid you want", "E.g. 16"));
+  while(isNaN(inputSize) || inputSize < 1 || inputSize > 64) {
+    inputSize = Math.floor(prompt("Invalid input. Enter only numbers between the values of 0-64"));
+  }
   document.documentElement.style.setProperty('--main-dimension', inputSize);
   while(item[0]) {
     item[0].parentNode.removeChild(item[0]);
@@ -79,21 +81,6 @@ function userPrompt() {
   makeBlocks(inputSize);
   resetButton();
   item = document.getElementsByClassName("box1");
-
-  let i = 0;
-  for(i = 0; i < inputSize*inputSize; i++) {
-
-    try{throw i}
-
-    catch(thisObject) {
-
-      item[thisObject].addEventListener("mouseover", function() {
-        func(item[thisObject]);
-      });
-    }
-
-
-  }
 }
 
 
